@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seller Dashboard</title>
+    <script type="text/javascript" th:src="@{/js/sellerdashboard.js}"></script>
+
+    <style>
+
+        .myForm{
+            margin: 10px;
+            padding: 10px;
+            border: lightgray solid;
+        }
+
+    </style>
+</head>
+<body >
+
+<p th:text="'Welcome'+${session.username}" />
+
+<form action="logout" method="post">
+    <input type="submit" value="LOGOUT">
+</form>
+
+<form id="detailsForm" action="updateuserdetails" method="post" class="myForm">
+
+    <label for="fname">FULLNAME:</label>
+    <input id="fname" type="text" name="fname" ><br>
+
+    <label for="lname">LASTNAME:</label>
+    <input id="lname" type="text" name="lname" ><br>
+
+    <label for="phone">PHONENUMBER:</label>
+    <input id="phone" type="text" name="phone" ><br>
+
+    <label for="type">CHOOSE TYPE:</label>
+    <select id="type" name="type" >
+        <option value="BUYER">Buyer</option>
+        <option value="SELLER">Seller</option>
+        <option value="ADMIN">Admin</option>
+    </select>
+
+</form>
+<button type="button" th:onclick="makeTestRequest()" >UPDATE</button>
+
+<div>
+
+    <form id="offerForm" action="saveOffer" method="post" class="myForm">
+        <label for="hscode">HSCODE:</label>
+        <input id="hscode" type="text" name="hscode" ><br>
+
+        <label for="offername">OFFERNAME:</label>
+        <input id="offername" type="text" name="offername" ><br>
+
+        <label for="phone">UNIT:</label>
+        <input id="unit" type="text" name="unit" ><br>
+
+        <label for="unitprice">UNITPRICE:</label>
+        <input id="unitprice" type="number" name="unitprice" ><br>
+
+        <label for="phone">QTY:</label>
+        <input id="qty" type="number" name="qty" ><br>
+    </form>
+
+    <button type="button" th:onclick="saveOfferRequest()" >SAVE</button>
+
+</div>
+
+<div id="offersDiv">
+    <h3>Your Offers</h3>
+    <table>
+        <tr>
+            <th>HSCODE</th>
+            <th>OFFER NAME</th>
+            <th>UNIT</th>
+            <th>UNIT PRICE</th>
+            <th>QTY</th>
+        </tr>
+
+        <tr th:each="offer : ${offerList}">
+            <td th:text="${offer.hscode}"></td>
+            <td th:text="${offer.offername}"></td>
+            <td th:text="${offer.unit}"></td>
+            <td th:text="${offer.unitprice}"></td>
+            <td th:text="${offer.qty}"></td>
+        </tr>
+
+
+    </table>
+</div>
+
+
+</body>
+</html>

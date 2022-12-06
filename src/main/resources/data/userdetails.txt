@@ -1,0 +1,5 @@
+{"username":"sindhu","fname":"sindhu","lname":"krishna","phone":"433243245","email":null,"type":"SELLER"}
+{"username":"vivekdhore","fname":"vivek","lname":"dhore","phone":"32442344","email":null,"type":"SELLER"}
+{"username":"ranganath","fname":"ranganth","lname":"mohan","phone":"35233465","email":null,"type":"BUYER"}
+{"username":"indiagator","fname":"prateek","lname":"kishore","phone":"89718406807","email":null,"type":"ADMIN"}
+{"username":"vijay","fname":"vijay","lname":"shinde","phone":"43253434","email":null,"type":"vijay@gmail.com"}

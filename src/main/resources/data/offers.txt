@@ -1,0 +1,7 @@
+{"id":"2562","username":"sindhu","hscode":"09024020","offername":"BulkAssamBlackTea","qty":100,"unit":"Ton","unitprice":145000.0}
+{"id":"5751","username":"sindhu","hscode":"50072010","offername":"KanjiwaramSaree","qty":1000,"unit":"Pcs","unitprice":1500.0}
+{"id":"8001","username":"sindhu","hscode":"10089010","offername":"BulkBuckwheat","qty":50,"unit":"Qntl","unitprice":7000.0}
+{"id":"2889","username":"sindhu","hscode":"14049070","offername":"BulkRudrakshaSeeds","qty":1000,"unit":"Ton","unitprice":50000.0}
+{"id":"1330","username":"vivekdhore","hscode":"29309060","offername":"BulkSulphoxide","qty":50000,"unit":"Ltrs","unitprice":120.0}
+{"id":"235","username":"vivekdhore","hscode":"40081910","offername":"BulkMicroCellularRubber","qty":100,"unit":"Ton","unitprice":65000.0}
+{"id":"7934","username":"vivekdhore","hscode":"39119010","offername":"BulkPolySulphones","qty":50,"unit":"Ton","unitprice":45000.0}

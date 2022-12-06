@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buyer Dashboard</title>
+    <script type="text/javascript" th:src="@{/js/buyerdashboard.js}"></script>
+</head>
+<body >
+
+<p th:text="'Welcome'+${session.username}" />
+
+<form action="logout" method="post">
+    <input type="submit" value="LOGOUT">
+</form>
+
+<form id="detailsForm" action="updateuserdetails" method="post">
+
+    <label for="fname">FULLNAME:</label>
+    <input id="fname" type="text" name="fname" >
+
+    <label for="lname">LASTNAME:</label>
+    <input id="lname" type="text" name="lname" >
+
+    <label for="phone">PHONENUMBER:</label>
+    <input id="phone" type="text" name="phone" >
+
+    <label for="type">CHOOSE TYPE:</label>
+    <select id="type" name="type" >
+        <option value="BUYER">Buyer</option>
+        <option value="SELLER">Seller</option>
+        <option value="ADMIN">Admin</option>
+    </select>
+
+</form>
+<button type="button" th:onclick="init()" >UPDATE</button>
+
+
+</body>
+</html>

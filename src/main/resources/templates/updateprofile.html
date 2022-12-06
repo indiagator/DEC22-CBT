@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Profile</title>
+  <script type="text/javascript" th:src="@{/js/updateprofile.js}"></script>
+</head>
+<body >
+
+<p th:text="'Welcome'+${session.username}" />
+
+<form action="logout" method="post">
+  <input type="submit" value="LOGOUT">
+</form>
+
+<form id="detailsForm" action="updateuserdetailsmvcdb" method="post">
+
+  <label for="fname">FULLNAME:</label>
+  <input id="fname" type="text" name="fname" >
+
+  <label for="lname">LASTNAME:</label>
+  <input id="lname" type="text" name="lname" >
+
+  <label for="phone">PHONENUMBER:</label>
+  <input id="phone" type="text" name="phone" >
+
+  <label for="email">EMAIL:</label>
+  <input id="email" type="email" name="email" >
+
+  <label for="type">CHOOSE TYPE:</label>
+  <select id="type" name="type" >
+    <option value="BUYER">Buyer</option>
+    <option value="SELLER">Seller</option>
+    <option value="ADMIN">Admin</option>
+  </select>
+
+  <input type="submit" value="UPDATE">
+
+</form>
+
+
+</body>
+</html>
