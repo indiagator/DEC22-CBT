@@ -106,7 +106,7 @@
         dataString = "hscode="+hscode+"&offername="+offername+"&unit="+unit+"&unitprice="+unitprice+"&qty="+qty;
 
         testHttpRequest1.onreadystatechange = saveOfferHandler;
-        testHttpRequest1.open('POST','http://localhost:8085/saveOffer',true);
+        testHttpRequest1.open('POST','http://localhost:8085/saveOfferDb',true);
         testHttpRequest1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         testHttpRequest1.send(dataString);
 

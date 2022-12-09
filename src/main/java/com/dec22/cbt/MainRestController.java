@@ -2,6 +2,9 @@ package com.dec22.cbt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +16,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +27,18 @@ import java.util.Map;
 @RestController
 public class MainRestController // Rest API includes all the URLs under the RestController
 {
+    @Autowired
+    TradeMessageRepository tradeMessageRepository;
+
+    @Autowired
+    ProductofferRepository productofferRepository;
+
+    @Autowired
+    UserdetailRepository userdetailRepository;
+
+   // @Autowired
+   // OrderRepository orderRepository;
+
     @PostMapping("updateuserdetails")
     Message updateuserdetails(@RequestParam("fname") String fname, @RequestParam("lname") String lname, @RequestParam("phone") String phone, @RequestParam("type") String type, HttpSession session) throws IOException {
 
@@ -110,10 +128,69 @@ public class MainRestController // Rest API includes all the URLs under the Rest
     }
 
     @PostMapping("saveOfferDb")
-    Message saveOfferDb(@RequestParam("hscode") String hscode, @RequestParam("offername") String offername, @RequestParam("unit") String unit, @RequestParam("unitprice") Integer unitprice, @RequestParam("qty") Integer qty, HttpSession session ) throws IOException
+    Message saveOfferDb(@RequestParam("hscode") String hscode, @RequestParam("offername") String offername, @RequestParam("unit") String unit, @RequestParam("unitprice") String unitprice, @RequestParam("qty") Integer qty, HttpSession session ) throws IOException, SQLException {
+        String offerid = String.valueOf((int) (Math.random()*10000));
+
+        Productoffer offer = new Productoffer();
+        offer.setId(offerid);
+        offer.setUsername((String)session.getAttribute("username"));
+        offer.setHscode(hscode);
+        offer.setOffername(offername);
+        offer.setUnit(unit);
+        offer.setUnitprice(Float.valueOf(unitprice));
+        offer.setQty(qty);
+
+
+       ProductOfferDAO productOfferDAO = new ProductOfferDAO();
+       productOfferDAO.save(offer);
+
+       Message message = new Message();
+       message.setMessage("Offer Saved Successfully in DataBase");
+       return message;
+    }
+
+    @PostMapping("createorder")
+    public Message createOrder(@RequestParam("offerid") String offerId, HttpSession session) throws SQLException {
+        String orderid = String.valueOf((int) (Math.random()*10000));
+
+        Order order = new Order();
+        order.setId(orderid);
+        order.setOfferid(offerId);
+        order.setUsername((String) session.getAttribute("username"));
+
+        OrderDAO orderDAO = new OrderDAO();
+        orderDAO.create(order);
+
+        Message message = new Message();
+        message.setMessage("Order was successfully placed");
+        return message;
+    }
+
+    @GetMapping("")
+    public List<OrderView> fetchAllOrdersBuyerwise(HttpSession session) throws SQLException
     {
-
-        return new Message();
+        OrderViewDAO orderViewDAO = new OrderViewDAO();
+        return orderViewDAO.fetchAllOrdersBuyerwise((String)session.getAttribute("username"));
     }
 
+    @PostMapping("savemessage")
+    public Message saveMessage(@RequestParam("message") String message, @RequestParam("offerid") String offerid, HttpSession session)
+    {
+        String orderid = String.valueOf((int) (Math.random()*10000));
+
+        Trademessage tradeMessage = new Trademessage();
+        tradeMessage.setSender(userdetailRepository.findById((String) session.getAttribute("username")).get());
+        tradeMessage.setReceiver(userdetailRepository.findById(productofferRepository.findById(offerid).get().getUsername()).get());
+        tradeMessage.setMessage(message);
+        //tradeMessage.setTimestamp(new LocalDateTime());
+        tradeMessage.setId(orderid);
+        tradeMessageRepository.save(tradeMessage);
+
+       // orderRepository.fetchSellerInfo();
+
+        Message message1 = new Message();
+        message1.setMessage("The Message was sent successfully");
+        return message1;
     }
+
+}

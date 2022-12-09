@@ -5,6 +5,7 @@ import javax.json.bind.JsonbBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,10 @@ import java.util.Optional;
 @Controller
 public class MainController
 {
+
+    @Autowired
+    CredentialRepository credentialRepository;
+
     @GetMapping("hello")
     public String greet(Model model)
     {
@@ -147,8 +152,8 @@ public class MainController
 
                 switch (typeDao.geType(username))
                 {
-                    case "BUYER"  : return "buyerdashboard";
-                    case "SELLER" : return "sellerdashboard";
+                    case "BUYER"  : ProductOfferDAO offerDAO1 = new ProductOfferDAO();model.addAttribute("offerList",offerDAO1.fetchAllOffers()); OrderViewDAO orderViewDAO = new OrderViewDAO();model.addAttribute("ordersList", orderViewDAO.fetchAllOrdersBuyerwise((String)session.getAttribute("username"))); return "buyerdashboard";
+                    case "SELLER" : ProductOfferDAO offerDAO2 = new ProductOfferDAO();model.addAttribute("offerList",offerDAO2.fetchAllOffersSellerwise(username));return "sellerdashboard";
                     case "ADMIN"  : return "dashboard";
                     default  : return "landingpage";
                 }
@@ -227,8 +232,10 @@ public class MainController
             String passwordHash= DigestUtils.md5Hex(password).toUpperCase();
             credential.setPassword(passwordHash);
 
-            CredentialDAO credentialDAO = new CredentialDAO();
-            credentialDAO.saveCredential(credential);
+            credentialRepository.save(credential);
+
+            //CredentialDAO credentialDAO = new CredentialDAO();
+            //credentialDAO.saveCredential(credential);
 
             session.setAttribute("username",username);
 

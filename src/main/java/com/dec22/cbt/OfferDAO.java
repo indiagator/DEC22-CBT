@@ -27,4 +27,9 @@ public class OfferDAO
         }
         return offerList.stream().filter(offer-> offer.getUsername().equals(username)).collect(Collectors.toList());
     }
+
+    public void save(Productoffer offer)
+    {
+
+    }
 }

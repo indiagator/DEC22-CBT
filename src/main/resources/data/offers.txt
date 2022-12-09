@@ -5,3 +5,5 @@
 {"id":"1330","username":"vivekdhore","hscode":"29309060","offername":"BulkSulphoxide","qty":50000,"unit":"Ltrs","unitprice":120.0}
 {"id":"235","username":"vivekdhore","hscode":"40081910","offername":"BulkMicroCellularRubber","qty":100,"unit":"Ton","unitprice":65000.0}
 {"id":"7934","username":"vivekdhore","hscode":"39119010","offername":"BulkPolySulphones","qty":50,"unit":"Ton","unitprice":45000.0}
+{"id":"4209","username":"venkata","hscode":"31059010","offername":"PotashFertilizer","qty":10,"unit":"Ton","unitprice":150000.0}
+{"id":"8715","username":"venkata","hscode":"31059010","offername":"PotashFertilizer","qty":10,"unit":"Ton","unitprice":150000.0}

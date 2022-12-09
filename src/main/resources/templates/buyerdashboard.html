@@ -4,35 +4,166 @@
     <meta charset="UTF-8">
     <title>Buyer Dashboard</title>
     <script type="text/javascript" th:src="@{/js/buyerdashboard.js}"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <style>
+
+        .myForm
+        {
+            margin: 5px;
+            padding: 5px;
+            border: lightgray solid;
+            width: 100%;
+        }
+
+        .myCell{
+            width: 12%;
+            margin: 2px;
+            padding: 2px;
+
+        }
+
+    </style>
 </head>
 <body >
 
-<p th:text="'Welcome'+${session.username}" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6"><h1 th:text="'Welcome '+${session.username}" />
+        </div>
+        <div class="col-md-5"><details>
+            <summary>UPDATE YOUR PROFILE</summary>
+            <div >
+                <div >
+                    <div >
+                        <form id="detailsForm" action="updateuserdetails" method="post" class="myForm">
 
-<form action="logout" method="post">
-    <input type="submit" value="LOGOUT">
-</form>
+                            <div class="mb-3">
+                                <label for="fname" class="form-label">FULLNAME:</label>
+                                <input id="fname" type="text" name="fname" class="form-control"><br>
+                            </div>
 
-<form id="detailsForm" action="updateuserdetails" method="post">
+                            <div class="mb-3">
+                                <label for="lname" class="form-label">LASTNAME:</label>
+                                <input id="lname" type="text" name="lname" class="form-control"><br>
+                            </div>
 
-    <label for="fname">FULLNAME:</label>
-    <input id="fname" type="text" name="fname" >
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">PHONENUMBER:</label>
+                                <input id="phone" type="text" name="phone" class="form-control"><br>
+                            </div>
 
-    <label for="lname">LASTNAME:</label>
-    <input id="lname" type="text" name="lname" >
+                            <div class="mb-3">
+                                <label for="type" class="form-label">CHOOSE TYPE:</label>
+                                <select id="type" name="type" class="form-control">
+                                    <option value="BUYER">Buyer</option>
+                                    <option value="SELLER">Seller</option>
+                                    <option value="ADMIN">Admin</option>
+                                </select>
+                            </div>
 
-    <label for="phone">PHONENUMBER:</label>
-    <input id="phone" type="text" name="phone" >
+                        </form>
+                        <button type="button" th:onclick="makeTestRequest()" class="btn btn-dark">UPDATE</button>
+                    </div>
 
-    <label for="type">CHOOSE TYPE:</label>
-    <select id="type" name="type" >
-        <option value="BUYER">Buyer</option>
-        <option value="SELLER">Seller</option>
-        <option value="ADMIN">Admin</option>
-    </select>
+                </div>
+            </div>
 
-</form>
-<button type="button" th:onclick="init()" >UPDATE</button>
+        </details>
+        </div>
+        <div class="col-md-1">
+            <div >
+                <form action="logout" method="post">
+                    <input type="submit" value="LOGOUT" class="btn btn-dark">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div id="offersDiv">
+                <h2>Active Offers from all Sellers</h2>
+                <table>
+
+                    <tr>
+                        <th class="myCell">SELLER NAME</th>
+                        <th class="myCell">HSCODE</th>
+                        <th class="myCell">OFFER NAME</th>
+                        <th class="myCell">UNIT</th>
+                        <th class="myCell">UNIT PRICE</th>
+                        <th class="myCell">QTY</th>
+                        <th class="myCell">OFFER ID</th>
+                    </tr>
+
+                    <tr th:each="offer : ${offerList}">
+                        <td th:text="${offer.username}" class="myCell"></td>
+                        <td th:text="${offer.hscode}" class="myCell"></td>
+                        <td th:text="${offer.offername}" class="myCell"></td>
+                        <td th:text="${offer.unit}" class="myCell"></td>
+                        <td th:text="${offer.unitprice}" class="myCell"></td>
+                        <td th:text="${offer.qty}" class="myCell"></td>
+                        <td th:text="${offer.id}" class="myCell" ></td>
+                        <td><button  class="btn btn-dark">CONTACT SELLER</button></td>
+                        <td><button  class="btn btn-dark">PLACE ORDER</button></td>
+                    </tr>
+
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <form action="createorder" method="post" id="offerForm">
+                <div class="mb-3">
+                    <label for="offerid" class="form-label">OFFER ID:</label>
+                    <input id="offerid" type="text" name="offerid" class="form-control"><br>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">MESSAGE:</label>
+                    <input id="message" type="text" name="message" class="form-control"><br>
+                </div>
+            </form>
+            <button type="button" th:onclick="createOrder()" class="btn btn-dark">PLACE ORDER</button>
+            <button type="button" th:onclick="showSellerProfile()" class="btn btn-dark">SHOW SELLER DETAILS</button>
+            <button type="button" th:onclick="sendMessage()" class="btn btn-dark">SEND MESSAGE</button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Your Orders</h2>
+
+            <table>
+                <tr>
+                    <th class="myCell">SELLER NAME</th>
+                    <th class="myCell">OFFER NAME</th>
+                    <th class="myCell">UNIT</th>
+                    <th class="myCell">QTY</th>
+                    <th class="myCell">ORDER AMNT</th>
+                </tr>
+
+                <tr th:each="order : ${ordersList}">
+                    <td th:text="${order.sellername}" class="myCell"></td>
+                    <td th:text="${order.offername}" class="myCell"></td>
+                    <td th:text="${order.unit}" class="myCell"></td>
+                    <td th:text="${order.qty}" class="myCell"></td>
+                    <td th:text="${order.orderamnt}" class="myCell"></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
 
 
 </body>

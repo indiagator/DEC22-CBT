@@ -1,9 +1,6 @@
 package com.dec22.cbt;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orders")
@@ -12,7 +9,10 @@ public class Order {
     @Column(name = "orderid", nullable = false, length = 20)
     private String id;
 
-    @Column(name = "offerid", length = 20)
+
+    private String username;
+
+
     private String offerid;
 
     public String getId() {
@@ -21,6 +21,14 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getOfferid() {
