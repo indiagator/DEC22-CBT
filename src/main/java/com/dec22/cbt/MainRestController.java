@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.type.descriptor.java.LocalDateTimeJavaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -24,7 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController()
+@RequestMapping("api/1.1")
 public class MainRestController // Rest API includes all the URLs under the RestController
 {
     @Autowired
@@ -166,14 +164,21 @@ public class MainRestController // Rest API includes all the URLs under the Rest
         return message;
     }
 
-    @GetMapping("")
+    @GetMapping("fetchOrdersBuyerwise")
     public List<OrderView> fetchAllOrdersBuyerwise(HttpSession session) throws SQLException
     {
         OrderViewDAO orderViewDAO = new OrderViewDAO();
         return orderViewDAO.fetchAllOrdersBuyerwise((String)session.getAttribute("username"));
     }
 
-    @PostMapping("savemessage")
+    @GetMapping("testFetchOrdersBuyerwise")
+    public List<OrderView> testFetchAllOrdersBuyerwise(@RequestParam("buyername") String buyername) throws SQLException
+    {
+        OrderViewDAO orderViewDAO = new OrderViewDAO();
+        return orderViewDAO.fetchAllOrdersBuyerwise(buyername);
+    }
+
+    @PostMapping("message") // message | GET - fetch all messages of this user | POST - post a new message | DEL - Delete all messages for this User
     public Message saveMessage(@RequestParam("message") String message, @RequestParam("offerid") String offerid, HttpSession session)
     {
         String orderid = String.valueOf((int) (Math.random()*10000));
@@ -191,6 +196,26 @@ public class MainRestController // Rest API includes all the URLs under the Rest
         Message message1 = new Message();
         message1.setMessage("The Message was sent successfully");
         return message1;
+    }
+
+    @GetMapping("message")
+    public Message getAllMessages()
+    {
+        return new Message();
+    }
+
+    @GetMapping("offer/{hscode}")
+    public List<Productoffer> getAllOffers(@PathVariable("hscode") String hscode) throws SQLException
+    {
+        ProductOfferDAO productOfferDAO = new ProductOfferDAO();
+        return productOfferDAO.fetchAllOffersByHscode(hscode);
+    }
+
+    @GetMapping("order/{hscode}")
+    public List<OrderView> getAllOrders(@PathVariable("hscode") String hscode) throws SQLException
+    {
+        OrderViewDAO orderViewDAO = new OrderViewDAO();
+        return orderViewDAO.fetchAllOrdersByHscode(hscode);
     }
 
 }
